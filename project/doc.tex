@@ -1,0 +1,109 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T2A]{fontenc}
+\usepackage[english,bulgarian]{babel}
+\def\frak#1{\cal #1}
+
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage{shuffle}
+\usepackage{alltt}
+\usepackage{enumerate}
+\newtheorem{theorem}{Теорема}%[section]
+\newtheorem{problem}{Задача}%[section]
+\newtheorem{remark}{{Забележка}}%[section]
+\newtheorem{example}{Пример}%[section]
+\newtheorem{lemma}{{Лема}}%[section]
+\newtheorem{proposition}{Твърдение}%[section]
+\def\proof{\textbf {Доказателство: }}%[section]
+\newtheorem{corollary}{Следствие}%[section]
+\newtheorem{fact}{Факт}%[
+\newtheorem{definition}{Дефиниция}%[section]
+
+\author{Иво Стратев}
+\title{Проект по ЧМДУ-практикум 2019/2020г. Вариант 3}
+
+\begin{document}
+\maketitle
+
+\begin{problem}
+Разглеждаме следната диференциална задача:
+
+\begin{align}
+u''(x) - x^2u(x) = x^2\ln(x) + x^{-2} \;, \; x \in (1, 2) \\
+u(1) = 0 \\
+u'(2) = \frac{1}{2}
+\end{align}
+
+Съставяме диференчна схема, за която искаме локалната грешка на апроксимация да е \(O(h^2)\),
+където \(h\) е стъпката.
+
+\vspace{0.5cm}
+
+Въвеждаме мрежа от \(n + 1\) точки в интервала \([1, 2]\).
+Нека \(h = \frac{1}{n}\).
+Нека \(x_i = 1 + (i - 1)h\) за \(i \in \{1, 2, \dots, n + 1\}\). 
+Нека \(y_i \approx u(x_i)\). 
+\end{problem}
+
+\vspace{0.5cm}
+
+В уравнение \((1)\) апроксимираме \(u''(x_i)\) с
+\begin{align*}
+\displaystyle\frac{y_{i + 1} - 2y_i + y_{i - 1}}{h^2}
+\end{align*}
+
+с ЛГА \(O(h^2)\).
+
+И така последователно получаваме
+
+\begin{align*}
+\displaystyle\frac{y_{i + 1} - 2y_i + y_{i - 1}}{h^2} - x_i^2y_i = x_i^2\ln(x_i) + x_i^{-2}
+\end{align*}
+
+\begin{align*}
+y_{i - 1} -(2 + h^2x_i^2)y_i + y_{i + 1} = h^2x_i^2\ln(x_i) + h^2x_i^{-2}
+\end{align*}
+
+за \(i \in \{2, 3, \dots, n\}\).
+
+\vspace{0.5cm}
+
+Граничното условие \((2)\) се апроксимира точно без грешка от \(y_1 = 0\).
+
+\vspace{0.5cm}
+
+За апроксимация на граничното условие \((3)\) с ЛГА \(O(h^2)\)
+въвеждаме временна извън конурна точка \(x_{n + 2} = x_{n + 1} + h = 2 + h\).
+Допускаме, че уравнението \((1)\) се удовлетворява в \(x_{n + 1}\).
+Апроксимираме \(u'(2)\) с централна разлика с ЛГА \(O(h^2)\).
+
+Последователно получаваме:
+
+\begin{align*}
+y_{n} -(2 + h^2x_{n + 1}^2)y_{n + 1} + y_{n + 2} = h^2x_{n + 1}^2\ln(x_{n + 1}) + h^2x_{n + 1}^{-2} \\
+\displaystyle\frac{y_{n + 2} - y_{n}}{2h} = \frac{1}{2}
+\end{align*}
+
+\begin{align*}
+y_{n} -(2 + h^2 2^2)y_{n + 1} + y_{n + 2} = h^2 2^2\ln(2) + h^2 2^{-2} \\
+y_{n + 2} = y_{n} + h
+\end{align*}
+
+\begin{align*}
+2y_n -2(1 + 2h^2)y_{n + 1} + h = 4h^2\ln(2) + \frac{h^2}{4}
+\end{align*}
+
+\begin{align*}
+y_n -(1 + 2h^2)y_{n + 1} = h^2\left(\ln4 + \frac{1}{8}\right) -\frac{h}{2}
+\end{align*}
+
+Тоест крайната диференчна схема е
+\begin{align*}
+y_1 = 0 \\
+y_{i - 1} -(2 + h^2x_i^2)y_i + y_{i + 1} = h^2\left(x_i^2\ln(x_i) + x_i^{-2}\right) \; , \; i \in \{2, 3, \dots, n\} \\
+y_n -(1 + 2h^2)y_{n + 1} = h^2\left(\ln4 + \frac{1}{8}\right) -\frac{h}{2}
+\end{align*}  
+
+\end{document}
